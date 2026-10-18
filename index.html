@@ -17,9 +17,9 @@
 :root[data-theme="dark"]{--bg:#14181d;--card:#1f252c;--tx:#eef1f4;--mu:#a3adb8;--bd:#36404a;--ac:#7db4ee;--g:#8fd39e;--gbg:#1d3d22;--n:#2b333b;--hd:#3a4048;--nt:#ff8f85;--abg:#3d2e0f;--abd:#e0a030;--atx:#f2c46a;--wt:#f2c46a;--rbg:#4a1d1a;--rbd:#ff8f85;--rtx:#ffb4ab}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.075 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px 180px}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}}
-:root[data-theme="dark"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='1.3' fill='%23000' fill-opacity='0.13'/%3E%3C/svg%3E");background-size:24px 24px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='1.3' fill='%23fff' fill-opacity='0.10'/%3E%3C/svg%3E");background-size:24px 24px}}
+:root[data-theme="dark"] body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='1.3' fill='%23fff' fill-opacity='0.10'/%3E%3C/svg%3E");background-size:24px 24px}
 main{max-width:560px;margin:0 auto;padding:16px 16px 48px}
 @media (min-width:900px){:root:not([data-cols="1"]) main.wide{max-width:1040px}:root:not([data-cols="1"]) .skl{columns:2;column-gap:24px}:root:not([data-cols="1"]) .grp{break-inside:avoid}}
 .skl{margin-top:20px}.skl .sec{margin-top:0}.grp{margin-bottom:20px}
@@ -177,7 +177,7 @@ function llOn(){return document.documentElement.getAttribute("data-ll")!=="off"}
 function llLabel(){return"Last Lesson Dates: "+(llOn()?"On":"Off")}
 function llHtml(){return'<div class="thm"><button class="btn ghost" id="llb" style="font-weight:700">'+llLabel()+'</button></div>'}
 function txOn(){return document.documentElement.getAttribute("data-tx")!=="off"}
-function txLabel(){return"Textured Background: "+(txOn()?"On":"Off")}
+function txLabel(){return"Background Pattern: "+(txOn()?"On":"Off")}
 function txHtml(){return'<div class="thm"><button class="btn ghost" id="txb" style="font-weight:700">'+txLabel()+'</button></div>'}
 function themeHtml(){return '<div class="thm"><button class="btn ghost" id="thb">'+themeLabel()+'</button></div>'}
 function wireCols(){var b=$("#clb");if(!b)return;b.onclick=function(){var on=colsOn();if(on)document.documentElement.setAttribute("data-cols","1");else document.documentElement.removeAttribute("data-cols");try{localStorage.setItem("dwj-cols",on?"1":"2")}catch(e){}this.textContent=colsLabel()}}
@@ -279,7 +279,7 @@ function instructions(){var h=mhead()+'<h1>Instructions</h1><p class="mu" style=
 </div></details>
 
 <details><summary>Main Admin</summary><div class="ib">
-<ul><li><b>Backup Now</b>: backups, restoring, safety copies and your Restore Point.</li><li><b>Add Pupil</b>: type a name and tap Add.</li><li><b>Payments Due</b>: everyone who owes money. Tap a pupil and answer “Has payment now been settled?” Inside, <b>Payment Icons</b> turns the £! marks on the main page on or off.</li><li><b>Detailed Payments History</b>: lessons, money received and money due for each pupil, with totals. Use the From and To dates to look at a period.</li><li><b>Set Lesson Price</b>: your standard price per lesson.</li><li><b>Archived Pupils</b>: appears once you have archived someone.</li><li><b>Last Lesson Dates</b>, <b>Checklist</b>, <b>Textured Background</b> and <b>Dark Mode</b>: display settings for this device.</li></ul>
+<ul><li><b>Backup Now</b>: backups, restoring, safety copies and your Restore Point.</li><li><b>Add Pupil</b>: type a name and tap Add.</li><li><b>Payments Due</b>: everyone who owes money. Tap a pupil and answer “Has payment now been settled?” Inside, <b>Payment Icons</b> turns the £! marks on the main page on or off.</li><li><b>Detailed Payments History</b>: lessons, money received and money due for each pupil, with totals. Use the From and To dates to look at a period.</li><li><b>Set Lesson Price</b>: your standard price per lesson.</li><li><b>Archived Pupils</b>: appears once you have archived someone.</li><li><b>Last Lesson Dates</b>, <b>Checklist</b>, <b>Background Pattern</b> and <b>Dark Mode</b>: display settings for this device.</li></ul>
 </div></details>
 
 <details><summary>A pupil’s progress card: skills</summary><div class="ib">
@@ -308,7 +308,7 @@ function instructions(){var h=mhead()+'<h1>Instructions</h1><p class="mu" style=
 </div></details>
 
 <details><summary>Display settings and tips</summary><div class="ib">
-<ul><li><b>Last Lesson Dates</b> shows or hides the last lesson lines on the main page and the Last lesson row on cards.</li><li><b>Checklist</b> chooses two columns or one column on wide screens.</li><li><b>Textured Background</b> turns the fine grain behind the pages on or off.</li><li><b>Dark Mode</b> and <b>Light Mode</b> switch the colours.</li><li>These settings are kept on each device. They are not part of backups.</li><li>When the app is updated, close it completely and reopen it with a signal. It may need to be reopened a couple of times. Tapping the logo also reloads it.</li><li>Your data is only on this device. Clearing Safari’s website data or deleting the Home Screen app erases it, so keep backing up.</li></ul>
+<ul><li><b>Last Lesson Dates</b> shows or hides the last lesson lines on the main page and the Last lesson row on cards.</li><li><b>Checklist</b> chooses two columns or one column on wide screens.</li><li><b>Background Pattern</b> turns the faint dot pattern behind the pages on or off.</li><li><b>Dark Mode</b> and <b>Light Mode</b> switch the colours.</li><li>These settings are kept on each device. They are not part of backups.</li><li>When the app is updated, close it completely and reopen it with a signal. It may need to be reopened a couple of times. Tapping the logo also reloads it.</li><li>Your data is only on this device. Clearing Safari’s website data or deleting the Home Screen app erases it, so keep backing up.</li></ul>
 </div></details>
 `+'</div>';
 $("#app").className="";$("#app").innerHTML=h;window.scrollTo(0,0);$("#mback").onclick=function(){home();window.scrollTo(0,0)}}
