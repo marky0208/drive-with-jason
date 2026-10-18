@@ -40,6 +40,11 @@ input[type=text]{flex:1;min-width:0;padding:12px;border:1px solid var(--bd);bord
 .llr label{color:var(--wt);font-weight:700;flex:none}
 .llr input[type=date]{margin:0;flex:none;width:auto;min-width:0;min-height:32px;padding:3px 8px;font-size:14px;background:transparent;border:1px solid var(--bd);border-radius:8px;color:var(--wt);font-weight:700}
 .llr.done label,.llr.done input[type=date],.llr.done .btn{color:var(--g)}
+.lgw{position:relative;display:flex;flex-direction:column}
+.svb{position:absolute;top:8px;right:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;padding:0;background:none;border:0;color:var(--mu);opacity:.75;cursor:pointer}
+.svb.bklate2{color:var(--rbd);opacity:1}
+@media (max-width:520px){.svb{position:static;order:-1;align-self:flex-end;width:40px;height:40px;margin-top:2px}}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:calc(100% - 32px);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:50}
 .bklate{background:var(--rbg)!important;border-color:var(--rbd)!important;color:var(--rtx)!important;font-weight:700}
 .llp{flex:none;min-height:32px;padding:0 10px;border:1px solid var(--bd);border-radius:8px;background:transparent;color:var(--wt);font-size:14px;font-weight:700;cursor:pointer}
 .llp.on{background:var(--gbg);border-color:var(--g);color:var(--g)}
@@ -183,7 +188,7 @@ function barIn(c){return'<i style="width:'+c.g/N*100+'%"></i><i class="a" style=
 function done(p){var c=0;G.forEach(function(g){g[1].forEach(function(k){if(lvl(p.t[nm(k)])===2)c++})});return c}
 function home(){
 mig();
-var h='<img class="lg" alt="Drive with Jason" src="'+LOGO+'" style="display:block;margin:8px auto 12px;width:380px;padding:8px 14px">'+remHtml();
+var h='<div class="lgw"><img class="lg" alt="Drive with Jason" src="'+LOGO+'" style="display:block;margin:8px auto 12px;width:380px;padding:8px 14px"><button class="svb'+(bkLate()?' bklate2':'')+'" id="svb" aria-label="Back up now" title="Back up now"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></button></div>'+remHtml();
 var act=S.pupils.filter(function(p){return !p.ar}),arc=S.pupils.filter(function(p){return p.ar});
 if(S.pupils.length)h+='<input type="search" id="sq" placeholder="Search" aria-label="Search" autocomplete="off" style="width:100%;margin:0 0 12px"><p class="mu" id="nom" hidden>No pupils match your search.</p>';
 if(!act.length)h+='<p class="mu" id="nop">'+(arc.length?'No active pupils. Archived pupils are in Main Admin.':'No pupils yet. Add your first pupil in Main Admin below.')+'</p>';
@@ -203,6 +208,7 @@ c.hidden=false;c.scrollIntoView({behavior:"smooth",block:"center"});
 $("#dys").onclick=function(){(pp.pl||[]).forEach(function(x){x.pd=true});pp.am="";recalc(pp);save();home()};
 $("#dno").onclick=function(){sel=id;paOpen=true;detail();var w=$("#pw");if(w&&w.hidden){$("#pb").click()}var t=$("#pb");if(t)t.scrollIntoView({block:"center"})};
 $("#dcx").onclick=function(){c.hidden=true;c.innerHTML=""}}});
+var svb=$("#svb");if(svb)svb.onclick=backup;
 var psb=$("#psb");if(psb)psb.onclick=function(){sFrom="";sTo="";paySummary();window.scrollTo(0,0)};
 var rb=$("#rmb");if(rb)rb.onclick=function(){adminOpen=true;bkOpen=true;home();var k=$("#kb");if(k)k.scrollIntoView()};
 var ub=$("#ub");if(ub)ub.onclick=function(){upMode=(upMode+1)%4;var r=upRows(),w=$("#uw");w.hidden=upMode===0;w.innerHTML=upBody(upMode,r.rows,r.lim);this.textContent=upLabel(upMode,r.rows);this.setAttribute("aria-expanded",upMode>0);w.querySelectorAll("[data-due]").forEach(function(b){b.onclick=function(){sel=b.getAttribute("data-due");detail();window.scrollTo(0,0)}})};
@@ -262,7 +268,8 @@ function snapHtml(){var a=getSnaps();return'<div id="snp" style="margin-top:12px
 function bkLate(){if(!S.pupils.length)return false;if(!S.bk)return true;var t=new Date(S.bk).getTime();return isNaN(t)||Date.now()-t>864e5}
 function lastBk(){return S.bk?"Last backed up "+new Date(S.bk).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}):"Not backed up yet"}
 function bkHtml(){return '<div class="bkp"><button class="btn ghost'+(bkLate()?' bklate':'')+'" id="kb" style="width:100%" aria-expanded="'+bkOpen+'">Backup Now</button><div id="kw"'+(bkOpen?'':' hidden')+'><p class="mu" id="lb" style="margin-top:12px">'+lastBk()+'</p><p class="mu">Save a copy to iCloud Drive, then restore it on any other device.</p><div class="add"><button class="btn" id="bkb">Back Up</button><button class="btn ghost" id="rsb">Restore</button></div><input type="file" id="rsf" accept=".json,application/json,text/plain" hidden><p class="mu" id="bkm" role="status"></p>'+snapHtml()+'<details id="pd"><summary class="mu">Paste Backup Text Instead</summary><textarea id="pt" aria-label="Backup text" spellcheck="false"></textarea><button class="btn ghost" id="pr">Restore From Text</button></details></div></div>'}
-function bm(t){var m=$("#bkm");if(m)m.textContent=t}
+var tT;function toast(t){var e=$("#toast");if(!e){e=document.createElement("div");e.id="toast";e.setAttribute("role","status");document.body.appendChild(e)}e.textContent=t;e.hidden=false;clearTimeout(tT);tT=setTimeout(function(){e.hidden=true},5000)}
+function bm(t){var m=$("#bkm");if(m)m.textContent=t;if(t&&(!m||m.offsetParent===null))toast(t)}
 function wireBk(){
 document.querySelectorAll("[data-sn]").forEach(function(b){var armed=false;b.onclick=function(){var x=getSnaps()[+b.getAttribute("data-sn")];if(!x)return;if(!armed){armed=true;b.textContent="Tap again to replace current pupils with this copy";return}try{var o=JSON.parse(x.d);if(!o||!Array.isArray(o.pupils))throw 0;snap(JSON.stringify(S),true);S=o;save();home()}catch(e){b.textContent="That copy couldn’t be restored"}}});
 $("#bkb").onclick=backup;
@@ -271,9 +278,9 @@ $("#rsf").onchange=function(){var f=this.files&&this.files[0];if(!f)return;var r
 $("#pr").onclick=function(){apply($("#pt").value)}}
 function backup(){
 var now=new Date(),txt=JSON.stringify({app:"dwj",v:2,saved:now.toISOString(),data:S},null,1),fn="drive-with-jason-backup-"+now.toISOString().slice(0,10)+".json";
-function fb(){$("#pt").value=txt;$("#pd").open=true;$("#pt").select();bm("Couldn’t open the save option. Copy this text and paste it into a note in iCloud Notes instead.")}
+function fb(){var aw=$("#aw");if(aw){aw.hidden=false;adminOpen=true}var kw=$("#kw");if(kw){kw.hidden=false;bkOpen=true}$("#pt").value=txt;$("#pd").open=true;$("#pt").select();bm("Couldn’t open the save option. Copy this text and paste it into a note in iCloud Notes instead.")}
 if(!dl){fb();return}
-dl.save({filename:fn,data:txt}).then(function(){S.bk=now.toISOString();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}var l=$("#lb");if(l)l.textContent=lastBk();var kb=$("#kb");if(kb)kb.classList.remove("bklate");bm("Backup ready. Choose Save to Files, then iCloud Drive.")}).catch(function(e){if(e&&e.code==="declined")bm("Backup cancelled.");else fb()})}
+dl.save({filename:fn,data:txt}).then(function(){S.bk=now.toISOString();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}var l=$("#lb");if(l)l.textContent=lastBk();var kb=$("#kb");if(kb)kb.classList.remove("bklate");var sv=$("#svb");if(sv)sv.classList.remove("bklate2");bm("Backup saved.")}).catch(function(e){if(e&&e.code==="declined")bm("Backup cancelled.");else fb()})}
 function apply(t){var o;try{o=JSON.parse(t)}catch(e){}
 var d=o&&o.app==="dwj"&&o.data&&Array.isArray(o.data.pupils)?o.data:null;
 if(!d){bm("That doesn’t look like a Drive with Jason backup.");return}
