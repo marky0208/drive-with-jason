@@ -31,6 +31,9 @@ input[type=text]{flex:1;min-width:0;padding:12px;border:1px solid var(--bd);bord
 .ghost{background:none;border:1px solid var(--bd);color:var(--tx);font-weight:400}
 .pupil{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer}
 .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.lgw{position:relative;display:flex;flex-direction:column}
+@media (max-width:520px){.rld{position:static!important;order:-1;align-self:flex-end;width:40px!important;height:40px!important;margin-top:4px}}
+.rld{position:absolute;top:8px;right:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;padding:0;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:12px;cursor:pointer}
 [data-owe="off"] .owe{display:none}
 .owe{flex:none;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--nt);color:#fff;font:700 14px/20px system-ui,-apple-system,sans-serif;text-align:center}
 .bar{height:8px;border-radius:4px;background:var(--n);overflow:hidden;margin-top:8px}
@@ -159,7 +162,7 @@ function barIn(c){return'<i style="width:'+c.g/N*100+'%"></i><i class="a" style=
 function done(p){var c=0;G.forEach(function(g){g[1].forEach(function(k){if(lvl(p.t[nm(k)])===2)c++})});return c}
 function home(){
 mig();
-var h='<img class="lg" alt="Drive with Jason" src="'+LOGO+'" style="display:block;margin:8px auto 12px;width:380px;padding:8px 14px">'+remHtml();
+var h='<div class="lgw"><img class="lg" alt="Drive with Jason" src="'+LOGO+'" style="display:block;margin:8px auto 12px;width:380px;padding:8px 14px"><button class="rld" id="rld" aria-label="Reload"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button></div>'+remHtml();
 var act=S.pupils.filter(function(p){return !p.ar}),arc=S.pupils.filter(function(p){return p.ar});
 if(S.pupils.length)h+='<input type="search" id="sq" placeholder="Search" aria-label="Search" autocomplete="off" style="width:100%;margin:0 0 12px"><p class="mu" id="nom" hidden>No pupils match your search.</p>';
 if(!act.length)h+='<p class="mu" id="nop">'+(arc.length?'No active pupils. Archived pupils are in Main Admin.':'No pupils yet. Add your first pupil in Main Admin below.')+'</p>';
@@ -182,6 +185,7 @@ var rpb=$("#rpb");if(rpb)rpb.onclick=function(){var w=$("#rpw");w.hidden=!w.hidd
 var rb=$("#rmb");if(rb)rb.onclick=function(){adminOpen=true;bkOpen=true;home();var k=$("#kb");if(k)k.scrollIntoView()};
 var ub=$("#ub");if(ub)ub.onclick=function(){upMode=(upMode+1)%4;var r=upRows(),w=$("#uw");w.hidden=upMode===0;w.innerHTML=upBody(upMode,r.rows,r.lim);this.textContent=upLabel(upMode,r.rows);this.setAttribute("aria-expanded",upMode>0);w.querySelectorAll("[data-due]").forEach(function(b){b.onclick=function(){sel=b.getAttribute("data-due");detail();window.scrollTo(0,0)}})};
 var ow=$("#owt");if(ow)ow.onclick=function(){var on=oweOn();if(on)document.documentElement.setAttribute("data-owe","off");else document.documentElement.removeAttribute("data-owe");try{localStorage.setItem("dwj-owe",on?"off":"on")}catch(e){}this.textContent=oweLabel()};
+var rl=$("#rld");if(rl)rl.onclick=function(){location.reload()};
 var db=$("#db");if(db)db.onclick=function(){var w=$("#dw");w.hidden=!w.hidden;dueOpen=!w.hidden;this.setAttribute("aria-expanded",dueOpen)};
 var kb=$("#kb");if(kb)kb.onclick=function(){var w=$("#kw");w.hidden=!w.hidden;bkOpen=!w.hidden;this.setAttribute("aria-expanded",bkOpen)};
 var ab=$("#ab");if(ab)ab.onclick=function(){var w=$("#aw");w.hidden=!w.hidden;adminOpen=!w.hidden;this.setAttribute("aria-expanded",adminOpen)};
