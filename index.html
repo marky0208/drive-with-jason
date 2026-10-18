@@ -289,6 +289,7 @@ function todayStr(){var n=new Date();return n.getFullYear()+"-"+("0"+(n.getMonth
 function mres(m){var d=0,s=0,x=0;MT.forEach(function(a){var r=(m.f||{})[a];if(!r)return;d+=r.d||0;if(r.s)s++;if(r.x)x++});var ey=m.ey===2||m.ey===true;return{d:d,s:s,x:x,ey:ey,pass:!ey&&s===0&&x===0&&d<=15}}
 function mreasons(r){var a=[];if(r.ey)a.push("Eyesight check failed");if(r.x)a.push(r.x+" dangerous fault"+(r.x>1?"s":""));if(r.s)a.push(r.s+" serious fault"+(r.s>1?"s":""));if(r.d>15)a.push(r.d+" driving faults (limit 15)");return a}
 function mhead(){return'<div class="hd"><button class="btn ghost" id="mback" aria-label="Back" style="font-size:24px;line-height:1;font-weight:700">&larr;</button><img class="lg" alt="Drive with Jason" src="'+LOGO+'"></div>'}
+function lAdd(p,d){p.lg=p.lg||[];if(!p.lg.some(function(x){return x.d===d}))p.lg.push({id:"l"+Date.now()+Math.random().toString(36).slice(2,5),d:d,n:""});lsync(p)}
 function lsync(p){var e=p.lg||[];if(e.length){var m="";e.forEach(function(x){if(String(x.d||"")>m)m=String(x.d)});if(m)p.ll=m}}
 function lessons(p){p.lg=p.lg||[];var list=p.lg.slice().sort(function(a,b){return String(b.d).localeCompare(String(a.d))||String(b.id).localeCompare(String(a.id))});
 var h=mhead()+'<h1>Lessons</h1><p class="mu" style="margin:0 0 4px"><b>'+esc(p.name)+'</b></p><p class="mu" style="margin:0 0 12px;font-weight:700">'+(p.lg.length?p.lg.length+(p.lg.length===1?" lesson":" lessons"):"No lessons logged yet")+'</p>'
@@ -341,8 +342,8 @@ h+='<button class="btn ghost" id="pab" style="width:100%;margin-top:14px;font-we
 $("#app").className="wide";$("#app").innerHTML=h;summ(p);tstat(p);mstat(p);istat(p);payStat(p);ostat(p);
 $("#lsb").onclick=function(){lessons(p)};
 $("#mtb").onclick=function(){mocks(p)};
-$("#lld").onchange=function(){p.ll=this.value||"";save()};
-$("#llt").onclick=function(){var v=todayStr();p.ll=v;$("#lld").value=v;save()};
+$("#lld").onchange=function(){p.ll=this.value||"";if(p.ll)lAdd(p,p.ll);save();var l=$("#lsb");if(l)l.textContent="Lessons"+((p.lg||[]).length?" ("+p.lg.length+")":"")};
+$("#llt").onclick=function(){var v=todayStr();p.ll=v;$("#lld").value=v;lAdd(p,v);save();var l=$("#lsb");if(l)l.textContent="Lessons"+((p.lg||[]).length?" ("+p.lg.length+")":"")};
 $("#inf").onclick=function(){var t=$("#inft");t.hidden=!t.hidden;this.setAttribute("aria-expanded",!t.hidden)};
 $("#back").onclick=$("#back2").onclick=function(){sel=null;home();window.scrollTo(0,0)};
 $("#icb").onclick=function(){var w=$("#icw");w.hidden=!w.hidden;icOpen=!w.hidden;this.setAttribute("aria-expanded",icOpen)};
