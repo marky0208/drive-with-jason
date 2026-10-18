@@ -45,6 +45,15 @@ input[type=text]{flex:1;min-width:0;padding:12px;border:1px solid var(--bd);bord
 .svb.bklate2{color:var(--rbd);opacity:1}
 @media (max-width:520px){.svb{position:static;order:-1;align-self:flex-end;width:40px;height:40px;margin-top:2px}}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:calc(100% - 32px);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:50}
+.ins details{border:1px solid var(--bd);border-radius:12px;background:var(--card);margin:0 0 10px}
+.ins summary{padding:14px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ins summary::-webkit-details-marker{display:none}
+.ins summary::after{content:"+";font-size:22px;line-height:1;color:var(--mu)}
+.ins details[open] summary::after{content:"\2212"}
+.ins .ib{padding:0 14px 6px;line-height:1.5}
+.ins .ib p{margin:0 0 10px}
+.ins .ib ul,.ins .ib ol{margin:0 0 10px;padding-left:22px}
+.ins .ib li{margin:0 0 6px}
 .bklate{background:var(--rbg)!important;border-color:var(--rbd)!important;color:var(--rtx)!important;font-weight:700}
 .llp{flex:none;min-height:32px;padding:0 10px;border:1px solid var(--bd);border-radius:8px;background:transparent;color:var(--wt);font-size:14px;font-weight:700;cursor:pointer}
 .llp.on{background:var(--gbg);border-color:var(--g);color:var(--g)}
@@ -208,6 +217,7 @@ c.hidden=false;c.scrollIntoView({behavior:"smooth",block:"center"});
 $("#dys").onclick=function(){(pp.pl||[]).forEach(function(x){x.pd=true});pp.am="";recalc(pp);save();home()};
 $("#dno").onclick=function(){sel=id;paOpen=true;detail();var w=$("#pw");if(w&&w.hidden){$("#pb").click()}var t=$("#pb");if(t)t.scrollIntoView({block:"center"})};
 $("#dcx").onclick=function(){c.hidden=true;c.innerHTML=""}}});
+var insb=$("#insb");if(insb)insb.onclick=function(){instructions()};
 var svb=$("#svb");if(svb)svb.onclick=backup;
 var psb=$("#psb");if(psb)psb.onclick=function(){sFrom="";sTo="";paySummary();window.scrollTo(0,0)};
 var rb=$("#rmb");if(rb)rb.onclick=function(){adminOpen=true;bkOpen=true;home();var k=$("#kb");if(k)k.scrollIntoView()};
@@ -240,6 +250,60 @@ function oweOn(){return document.documentElement.getAttribute("data-owe")!=="off
 function oweLabel(){return"Payment Icons: "+(oweOn()?"On":"Off")}
 function llFmt(v){var m=/^(\d{4})-(\d\d)-(\d\d)/.exec(v||"");if(!m)return"";var d=new Date(+m[1],+m[2]-1,+m[3]),o={weekday:"short",day:"numeric",month:"short"};if(d.getFullYear()!==new Date().getFullYear())o.year="numeric";return d.toLocaleDateString("en-GB",o).replace(",","")}
 function pb(p){var c=cnt(p);return'<button class="pupil" data-id="'+p.id+'" data-nm="'+esc(String(p.name).toLowerCase())+'"><div class="top"><b>'+esc(p.name)+'</b>'+(owes(p)?'<span class="owe" role="img" aria-label="Payment outstanding">£!</span>':'')+'</div>'+(p.ll?'<div class="ll">Last lesson: '+esc(llFmt(p.ll))+'</div>':'')+'<div class="bar">'+barIn(c)+'</div></button>'}
+function instructions(){var h=mhead()+'<h1>Instructions</h1><p class="mu" style="margin:0 0 12px">Tap a heading to open it.</p><div class="ins">'+`
+<details open><summary>Backups, and using the app on another device</summary><div class="ib">
+<p><b>What a backup holds.</b> All your pupils, their skills and notes, test dates, lessons, payments and lesson prices. It does not hold display settings (Dark Mode, the on/off buttons) or your Restore Point, which belong to each device.</p>
+<p><b>Making a backup.</b></p>
+<ol><li>Tap the floppy disk icon at the top right of the main page. (Or open Main Admin, then Backup Now, then Back Up.)</li><li>The iPad’s share sheet opens. Choose <b>Save to Files</b>, then <b>iCloud Drive</b>, then Save.</li><li>You’ll see “Backup saved.” The file is called drive-with-jason-backup-DATE.json.</li></ol>
+<p>The floppy disk icon and the Backup Now button turn red if you haven’t backed up in the last 24 hours. After 7 p.m., a reminder appears on the main page if you haven’t backed up that day. Back up after any busy day: your data lives only on the device, so a backup is the only way to get it back if the device is lost, reset or its Safari data is cleared.</p>
+<p><b>Using the app on another device (for example your iPhone).</b> The two devices do not talk to each other, so you move your data across with a backup.</p>
+<ol><li>On the main device, make a fresh backup and save it to iCloud Drive (steps above). Both devices need to use the same Apple ID so the file shows up on both.</li><li>On the other device, open Safari and go to <b>marky0208.github.io/drive-with-jason</b>.</li><li>Tap the Share button, then <b>Add to Home Screen</b>. Open the app from its new icon.</li><li>Open <b>Main Admin</b>, then <b>Backup Now</b>, then <b>Restore</b>.</li><li>Choose the backup file from iCloud Drive (Browse, then iCloud Drive).</li><li>The app says “Found N pupils in that backup. Replace the pupils on this device?” Tap <b>Replace</b>.</li><li>Check your pupils are there.</li></ol>
+<p><b>Good to know.</b></p>
+<ul><li>Restoring replaces everything on that device with the backup. It does not merge.</li><li>Nothing syncs. Changes made on one device do not appear on the other until you back up on one and restore on the other.</li><li>Pick one main device (your iPad). Treat the other as a read-only copy, or after using it back up from it and restore onto the main device straight away, before making changes there.</li></ul>
+<p><b>If the file picker won’t work.</b> In Backup Now, open <b>Paste Backup Text Instead</b>, paste the text of the backup file into the box and tap <b>Restore From Text</b>.</p>
+<p><b>Safety copies.</b> The app automatically keeps the last few versions of your data on the device. Under Backup Now, tap one of the copies, then tap again, to go back to it.</p>
+<p><b>Restore Point.</b> Under Backup Now, <b>Set Restore Point</b> saves a named copy of everything on this device. <b>Go Back To It</b> returns to that moment (two taps). A safety copy of your current data is kept first.</p>
+</div></details>
+
+<details><summary>The main page</summary><div class="ib">
+<ul><li><b>Search</b> filters the list as you type.</li><li>Each pupil box shows their name and a progress bar: green is achieved, amber is working on, grey is not started.</li><li>A red <b>£!</b> on a pupil’s box means a payment is outstanding. A <b>Last lesson</b> line shows their latest lesson date.</li><li>Tap a pupil to open their progress card.</li><li><b>Upcoming Tests</b> cycles with each tap: theory tests, driving tests, all tests, then hidden. Tests in the next 4 weeks show in bold red with “Soon!”.</li><li>Tap the <b>logo</b> on any page to reload the app, which also fetches the newest version.</li><li>The <b>floppy disk icon</b> makes a backup.</li></ul>
+</div></details>
+
+<details><summary>Main Admin</summary><div class="ib">
+<ul><li><b>Backup Now</b>: backups, restoring, safety copies and your Restore Point.</li><li><b>Add Pupil</b>: type a name and tap Add.</li><li><b>Payments Due</b>: everyone who owes money. Tap a pupil and answer “Has payment now been settled?” Inside, <b>Payment Icons</b> turns the £! marks on the main page on or off.</li><li><b>Detailed Payments History</b>: lessons, money received and money due for each pupil, with totals. Use the From and To dates to look at a period.</li><li><b>Set Lesson Price</b>: your standard price per lesson.</li><li><b>Archived Pupils</b>: appears once you have archived someone.</li><li><b>Last Lesson Dates</b>, <b>Checklist</b> and <b>Dark Mode</b>: display settings for this device.</li></ul>
+</div></details>
+
+<details><summary>A pupil’s progress card: skills</summary><div class="ib">
+<ul><li>Tap a skill once for <b>amber</b> (working on it), twice for <b>green</b> (achieved), and a third time to clear it.</li><li>Tap the <b>pen</b> beside a skill to add or edit a note.</li><li>The line under the name counts achieved, working on and not started. Tap the small <b>i</b> to see the tap guide.</li><li>On a wide screen such as a landscape iPad the checklist runs in two columns. You can switch this in Main Admin with the Checklist button.</li><li>Use the arrow at the top or bottom to go back.</li></ul>
+</div></details>
+
+<details><summary>Lessons and the last lesson date</summary><div class="ib">
+<ul><li>At the top of the card, the <b>Last lesson</b> row shows the date of the latest lesson. Tap <b>Today</b> after a lesson. This logs the lesson and adds the lesson price to Payments. The row turns green when the last lesson was today.</li><li>Tap <b>£✓</b> next to it when the pupil pays straight away. It turns green and marks that lesson paid. Tap again to undo.</li><li>The <b>Lessons</b> button opens the full log. Add a lesson with a date, an amount and an optional note. The amount starts as your standard price for that date. Change it for a one-off, such as a longer lesson, or clear it for no charge.</li><li>The <b>pen</b> on a lesson edits its amount or note afterwards.</li><li>The small chip on a lesson (for example “£40 · Owed”) switches between owed and paid when you tap it.</li><li>The <b>×</b> removes a lesson after a second tap. Removing an unpaid lesson also removes its amount due. A paid lesson’s payment record stays.</li></ul>
+<p><b>Setting your price.</b> Main Admin, then <b>Set Lesson Price</b>. Enter the price and the date it starts from, then tap Set price. Each lesson uses the price in force on its own date, so a price rise never changes lessons already recorded.</p>
+</div></details>
+
+<details><summary>Payments</summary><div class="ib">
+<ul><li>Inside <b>Pupil Admin</b> on a card, the <b>Payments</b> box lists each amount due with its date. Tap an entry to mark it paid or unpaid. You can also add an amount by hand, or remove one with a second tap on ×.</li><li>The button shows “Payments: £X due” in amber, or red for more than £50, and goes green when they’re paid up.</li><li><b>Payments Due</b> in Main Admin lists everyone who owes money. <b>Detailed Payments History</b> shows lessons, received and due for every pupil.</li></ul>
+</div></details>
+
+<details><summary>Pupil Admin</summary><div class="ib">
+<ul><li><b>Mobile number</b>: store it for quick reference.</li><li><b>Initial Checks</b>: tick provisional licence, eyesight and cancellation policy.</li><li><b>Theory Test</b> and <b>Driving Test</b>: pick the dates. The theory test must come before the driving test. <b>Reset Test Dates</b> clears them (two taps).</li><li><b>Change Pupil Name</b> and <b>Other information</b> for anything else you want to record.</li><li><b>Create summary</b>: choose whether to include your notes, edit the message, then tap Copy text to paste it into Messages.</li><li><b>Archive Pupil</b> asks “Are you sure?” first.</li></ul>
+</div></details>
+
+<details><summary>Mock tests</summary><div class="ib">
+<ul><li>Tap <b>Mock Tests</b>, then <b>Start a Mock Test</b>.</li><li>For each of the 24 areas, use − and + to count driving faults, and mark Serious or Dangerous where needed. Mark the eyesight check: one tap for pass, two for fail, three to clear.</li><li>The result bar shows PASS or FAIL. A pass needs no serious or dangerous faults, no more than 15 driving faults and a passed eyesight check.</li><li>Add notes at the bottom. <b>Reset Mock Test</b> clears the marks. <b>Delete this mock test</b> removes it (two taps).</li></ul>
+</div></details>
+
+<details><summary>Archiving and deleting pupils</summary><div class="ib">
+<ul><li>Archived pupils leave the main list, Upcoming Tests and Detailed Payments History, but still appear in Payments Due while they owe money.</li><li>Find them under <b>Archived Pupils</b> in Main Admin. Open one to <b>Restore From Archive</b>.</li><li>Only archived pupils can be deleted. <b>Delete this pupil</b> is permanent and asks you to confirm.</li></ul>
+</div></details>
+
+<details><summary>Display settings and tips</summary><div class="ib">
+<ul><li><b>Last Lesson Dates</b> shows or hides the last lesson lines on the main page and the Last lesson row on cards.</li><li><b>Checklist</b> chooses two columns or one column on wide screens.</li><li><b>Dark Mode</b> and <b>Light Mode</b> switch the colours.</li><li>These settings are kept on each device. They are not part of backups.</li><li>When the app is updated, close it completely and reopen it with a signal. It may need to be reopened a couple of times. Tapping the logo also reloads it.</li><li>Your data is only on this device. Clearing Safari’s website data or deleting the Home Screen app erases it, so keep backing up.</li></ul>
+</div></details>
+`+'</div>';
+$("#app").className="";$("#app").innerHTML=h;window.scrollTo(0,0);$("#mback").onclick=function(){home();window.scrollTo(0,0)}}
+function insHtml(){return'<div style="margin-top:12px"><button class="btn ghost" id="insb" style="width:100%;font-weight:700">Instructions</button></div>'}
 function psHtml(){if(!S.pupils.length)return"";return'<div style="margin-top:12px"><button class="btn ghost" id="psb" style="width:100%;font-weight:700">Detailed Payments History</button></div>'}
 function priceHtml(){var rs=(S.rates||[]).slice().sort(function(a,b){return a.from<b.from?1:-1}),now=rateFor(todayStr());return'<div style="margin-top:12px"><button class="btn ghost" id="prb" style="width:100%;font-weight:700" aria-expanded="'+prOpen+'">Set Lesson Price'+(now?': Currently '+fm(now):'')+'</button><div id="prw" class="sp" style="margin-bottom:0"'+(prOpen?'':' hidden')+'><label class="mu tl" for="prp">Price per lesson (&pound;)</label><input type="text" inputmode="decimal" id="prp" autocomplete="off" placeholder="e.g. 40" style="width:100%;box-sizing:border-box"><label class="mu tl" for="prd" style="margin-top:8px">Effective from</label><input type="date" id="prd" value="'+todayStr()+'"><button class="btn" id="prs" style="width:100%;margin-top:12px;background:#2e7d32;border-color:#2e7d32;color:#fff;font-weight:700">Set price</button><p id="prm" role="alert" hidden style="margin:8px 0 0;color:var(--rbd);font-weight:700"></p>'+(rs.length?'<div style="margin-top:12px">'+rs.map(function(r){return'<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid var(--bd)"><span><b>'+fm(r.a)+'</b><span class="mu"> from '+esc(fmtD(r.from,false))+'</span></span><button class="nb" data-rx="'+r.from+'" aria-label="Remove price" style="font-size:24px;line-height:1">&times;</button></div>'}).join("")+'</div>':'')+'<p class="mu" style="margin:10px 0 0;font-size:13px">New lessons use the price in force on their date. Changing the price never alters lessons or payments already recorded.</p></div></div>'}
 function wirePrice(){var b=$("#prb");if(!b)return;b.onclick=function(){var w=$("#prw");w.hidden=!w.hidden;prOpen=!w.hidden;this.setAttribute("aria-expanded",prOpen)};
@@ -262,7 +326,7 @@ $("#app").className="";$("#app").innerHTML=h;
 $("#mback").onclick=function(){home();window.scrollTo(0,0)};
 var fm_=$("#sfm"),to_=$("#sto");fm_.onchange=function(){sFrom=this.value||"";paySummary()};to_.onchange=function(){sTo=this.value||"";paySummary()};
 var c=$("#sclr");if(c)c.onclick=function(){sFrom="";sTo="";paySummary()}}
-function adminHtml(){return '<div style="margin-top:32px"><button class="btn ghost" id="ab" style="width:100%;font-weight:600" aria-expanded="'+adminOpen+'">Main Admin</button><div id="aw" class="sp"'+(adminOpen?'':' hidden')+'>'+bkHtml()+'<div style="margin:12px 0"><button class="btn ghost" id="apb" style="width:100%;font-weight:700" aria-expanded="false">Add Pupil</button><div id="apw" class="sp" style="margin-bottom:0" hidden><div class="add" style="margin:0"><input type="text" id="nm" placeholder="Pupil name" aria-label="Pupil name" autocomplete="off"><button class="btn" id="addb">Add</button></div></div></div>'+dueHtml()+psHtml()+priceHtml()+archHtml()+llHtml()+colsHtml()+themeHtml()+'</div></div>'}
+function adminHtml(){return '<div style="margin-top:32px"><button class="btn ghost" id="ab" style="width:100%;font-weight:600" aria-expanded="'+adminOpen+'">Main Admin</button><div id="aw" class="sp"'+(adminOpen?'':' hidden')+'>'+bkHtml()+'<div style="margin:12px 0"><button class="btn ghost" id="apb" style="width:100%;font-weight:700" aria-expanded="false">Add Pupil</button><div id="apw" class="sp" style="margin-bottom:0" hidden><div class="add" style="margin:0"><input type="text" id="nm" placeholder="Pupil name" aria-label="Pupil name" autocomplete="off"><button class="btn" id="addb">Add</button></div></div></div>'+dueHtml()+psHtml()+priceHtml()+archHtml()+llHtml()+colsHtml()+themeHtml()+insHtml()+'</div></div>'}
 function remHtml(){if(!S.pupils.length)return"";var n=new Date();if(n.getHours()<19)return"";if(S.bk&&new Date(S.bk).toDateString()===n.toDateString())return"";return'<div style="background:var(--abg);border:1px solid var(--abd);color:var(--atx);border-radius:12px;padding:12px 14px;margin:0 0 14px"><b>Backup reminder</b><div style="margin:4px 0 10px">'+(S.bk?"You haven’t backed up today. "+lastBk()+".":"You haven’t backed up yet.")+'</div><button class="btn" id="rmb" style="width:100%">Back Up Now</button></div>'}
 function snapHtml(){var a=getSnaps();return'<div id="snp" style="margin-top:12px"><p class="mu" style="margin-bottom:6px"><b>Automatic Safety Copies</b></p>'+(a.length?'<p class="mu" style="margin-top:0">The app keeps the last few versions on this device. Tap one to go back to it.</p>'+a.map(function(x,i){var n=0;try{n=JSON.parse(x.d).pupils.length}catch(e){}return'<button class="btn ghost" data-sn="'+i+'" style="width:100%;margin-bottom:8px;text-align:left">'+new Date(x.t).toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})+' ('+n+' pupils)</button>'}).join(""):'<p class="mu" style="margin-top:0">No safety copies yet. They appear automatically as you make changes.</p>')+'</div>'}
 function bkLate(){if(!S.pupils.length)return false;if(!S.bk)return true;var t=new Date(S.bk).getTime();return isNaN(t)||Date.now()-t>864e5}
